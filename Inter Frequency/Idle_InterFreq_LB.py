@@ -1,7 +1,10 @@
 # Created by github.com/zulfadlizainal
 
 import pandas as pd
+import matplotlib.pyplot as plt
+import seaborn as sns
 import numpy as np
+sns.set()
 
 # Import Data
 data = pd.read_excel('Input_Data.xlsx', encoding='utf-8')
@@ -49,9 +52,10 @@ result = pd.Series([])
 
 if B1st_to_B2nd == HightoLow:
 
-    sNonIntraSearchP = param_dict['SIB1_q-RxLevMin'][0] + param_dict['SIB3_s-NonIntraSearchP'][0]
+    sNonIntraSearchP = param_dict['SIB1_q-RxLevMin'][0] + \
+        param_dict['SIB3_s-NonIntraSearchP'][0]
 
-    #Create Search Criteria
+    # Create Search Criteria
     index = 0
     for index in range(len(data_B1st)):
 
@@ -62,7 +66,7 @@ if B1st_to_B2nd == HightoLow:
 
     data_B1st['Search'] = search
 
-    #Create Decision Criteria
+    # Create Decision Criteria
     index = 0
     for index in range(len(data_B1st)):
 
@@ -73,7 +77,7 @@ if B1st_to_B2nd == HightoLow:
 
     data_B1st['Decision'] = decide
 
-    #Result
+    # Result
     index = 0
     for index in range(len(data_B1st)):
 
@@ -85,6 +89,38 @@ if B1st_to_B2nd == HightoLow:
             result[index] = 'Not Searching'
 
         data_B1st['Result'] = result
+
+    # Plot scatter
+    ax = sns.scatterplot(x=f'{B2nd}_RSRP (dBm)', y=f'{B1st}_RSRP (dBm)',
+                         hue='Result', data=data_B1st)
+
+    #Define Straight Line Function
+    x = np.linspace(-140,-70)
+    y = x
+
+    #Plot Equal Line
+    plt.plot(x, y, color='k', linestyle='-')
+
+    #Plot Search line
+    y = sNonIntraSearchP
+    plt.axhline(y =  sNonIntraSearchP, color='b', linestyle='--')
+
+    #Plot Decision line (q-Offset)
+    y = x + param_dict['SIB5_q-OffsetFreq'][0]
+    plt.plot(x, y, color='b', linestyle='--')
+
+    #Plot Decision Line (q-Hyst)
+    y = x - param_dict['SIB3_q-Hyst'][0]
+    plt.plot(x, y, color='b', linestyle='--')
+
+    plt.xlabel(f'{B2nd}_RSRP (dBm)')
+    plt.ylabel(f'{B1st}_RSRP (dBm)')
+    plt.title(f'[RSRP] {B1st} Reselection to {B2nd}')
+    plt.grid(color='gray', linestyle='--', linewidth=0.5)
+    plt.ylim((-140, -70))
+    plt.xlim((-140, -70))
+
+    plt.show()
 
 print(' ')
 print('ありがとうございました！！')
