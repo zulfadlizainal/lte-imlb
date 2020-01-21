@@ -70,7 +70,7 @@ if B1st_to_B2nd == HightoLow:
     index = 0
     for index in range(len(data_B1st)):
 
-        if (data_B1st[f'{B2nd}_RSRP (dBm)'][index] - param_dict['SIB5_q-OffsetFreq'][0]) > (data_B1st[f'{B1st}_RSRP (dBm)'][index] + param_dict['SIB3_q-Hyst'][0]):
+        if (data_B1st[f'{B2nd}_RSRP (dBm)'][index] > (data_B1st[f'{B1st}_RSRP (dBm)'][index] + param_dict['SIB3_q-Hyst'][0] + param_dict['SIB5_q-OffsetFreq'][0])):
             decide[index] = 1
         else:
             decide[index] = 0
@@ -90,35 +90,39 @@ if B1st_to_B2nd == HightoLow:
 
         data_B1st['Result'] = result
 
+    # Plot definition
+    pmax = -70
+    pmin = -140
+
     # Plot scatter
     ax = sns.scatterplot(x=f'{B2nd}_RSRP (dBm)', y=f'{B1st}_RSRP (dBm)',
                          hue='Result', data=data_B1st)
 
-    #Define Straight Line Function
-    x = np.linspace(-140,-70)
+    # Define Straight Line Function
+    x = np.linspace(pmin, pmax)
     y = x
 
-    #Plot Equal Line
+    # Plot Equal Line
     plt.plot(x, y, color='k', linestyle='-')
 
-    #Plot Search line
+    # Plot Search line
     y = sNonIntraSearchP
-    plt.axhline(y =  sNonIntraSearchP, color='b', linestyle='--')
+    plt.axhline(y=sNonIntraSearchP, color='b', linestyle='--')
+    plt.text(pmin, y + 1, f'SIB3_s-NonIntraSearchP = {sNonIntraSearchP} dBm')
 
-    #Plot Decision line (q-Offset)
-    y = x + param_dict['SIB5_q-OffsetFreq'][0]
+    # Plot Decision line
+    decideline = param_dict['SIB5_q-OffsetFreq'][0] + \
+        param_dict['SIB3_q-Hyst'][0]
+    y = x - decideline
     plt.plot(x, y, color='b', linestyle='--')
-
-    #Plot Decision Line (q-Hyst)
-    y = x - param_dict['SIB3_q-Hyst'][0]
-    plt.plot(x, y, color='b', linestyle='--')
+    plt.text(pmin, pmin + 1, f'SIB5_q-OffsetFreq + SIB3_q-Hyst = {decideline} dB')
 
     plt.xlabel(f'{B2nd}_RSRP (dBm)')
     plt.ylabel(f'{B1st}_RSRP (dBm)')
-    plt.title(f'[RSRP] {B1st} Reselection to {B2nd}')
+    plt.title(f'[RSRP] {B1st} Reselection to {B2nd} [Equal Priority]')
     plt.grid(color='gray', linestyle='--', linewidth=0.5)
-    plt.ylim((-140, -70))
-    plt.xlim((-140, -70))
+    plt.ylim((pmin, pmax))
+    plt.xlim((pmin, pmax))
 
     plt.show()
 
