@@ -17,9 +17,8 @@ temp.drop(columns=['Formula'], inplace=True)
 param_dict = temp.set_index('Parameter').T.to_dict('list')
 del temp
 
-print('\n####################################################################\n')
-print('Inter Freq Load Balancing Simulation - Through Reselection Parameter')
-print('\n####################################################################\n')
+print('\nInter Freq Load Balancing Simulation - Through Reselection Parameter')
+print('--------------------------------------------------------------------\n')
 
 # Band Variable
 B1st = param.columns[1]
@@ -112,7 +111,8 @@ if B1st_to_B2nd == Equal:
     searchline = sNonIntraSearchP
     y = searchline
     plt.axhline(y, color='b', linestyle='--')
-    plt.text(pmin, y + 1, f'SIB1_q-RxLevMin + SIB3_s-NonIntraSearchP = {searchline} dBm')
+    plt.text(
+        pmin, y + 1, f'SIB1_q-RxLevMin + SIB3_s-NonIntraSearchP = {searchline} dBm')
 
     # Plot Decision line
     decideline = param_dict['SIB5_q-OffsetFreq'][0] + \
@@ -199,7 +199,7 @@ elif B1st_to_B2nd == LowtoHigh:
 
 
 # High to Low Priority
-if B1st_to_B2nd == HightoLow:
+elif B1st_to_B2nd == HightoLow:
 
     sNonIntraSearchP = param_dict['SIB1_q-RxLevMin'][0] + \
         param_dict['SIB3_s-NonIntraSearchP'][0]
@@ -259,21 +259,25 @@ if B1st_to_B2nd == HightoLow:
     searchline = sNonIntraSearchP
     y = searchline
     plt.axhline(y, color='b', linestyle='--')
-    plt.text(pmin, y + 1, f'SIB1_q-RxLevMin + SIB3_s-NonIntraSearchP = {searchline} dBm')
+    plt.text(
+        pmin, y + 1, f'SIB1_q-RxLevMin + SIB3_s-NonIntraSearchP = {searchline} dBm')
 
-    #Plot Decision line
-    threshServingLowP = param_dict['SIB1_q-RxLevMin'][0] + param_dict['SIB3_threshServingLowP'][0]
+    # Plot Decision line
+    threshServingLowP = param_dict['SIB1_q-RxLevMin'][0] + \
+        param_dict['SIB3_threshServingLowP'][0]
     decideline = threshServingLowP
     y = decideline
     plt.axhline(y, color='b', linestyle='--')
-    plt.text(pmin, y + 1, f'SIB1_q-RxLevMin + SIB3_threshServingLowP = {decideline} dBm')
+    plt.text(
+        pmin, y + 1, f'SIB1_q-RxLevMin + SIB3_threshServingLowP = {decideline} dBm')
 
-    threshXLowP = param_dict['SIB5_q-RxLevMin'][0] + param_dict['SIB5_threshX-LowP'][0]
+    threshXLowP = param_dict['SIB5_q-RxLevMin'][0] + \
+        param_dict['SIB5_threshX-LowP'][0]
     decideline = threshXLowP
     y = decideline
     plt.axvline(y, color='b', linestyle='--')
-    plt.text(y + 1, pmin, f'SIB5_q-RxLevMin + SIB5_threshX-LowP = {decideline} dBm')
-
+    plt.text(
+        y + 1, pmin, f'SIB5_q-RxLevMin + SIB5_threshX-LowP = {decideline} dBm')
 
     plt.xlabel(f'{B2nd}_RSRP (dBm)')
     plt.ylabel(f'{B1st}_RSRP (dBm)')
@@ -283,6 +287,22 @@ if B1st_to_B2nd == HightoLow:
     plt.xlim((pmin, pmax))
 
     plt.show()
+
+#Calculate Statistics for 1st Band Reselection
+stats = data_B1st.groupby(['Result'])['Result'].describe()
+stats.drop(columns=['unique', 'top', 'freq'], inplace=True)
+
+statscalc = pd.Series([])
+statssum = stats['count'].sum()
+
+index = 0
+for index in range(len(stats)):
+    statscalc[index] = (stats['count'][index] /  statssum) * 100
+
+#statscalc = pd.DataFrame(statscalc)
+#stats = pd.concat([stats, statscalc], axis=1)
+
+print(stats)
 
 print(' ')
 print('ありがとうございました！！')
