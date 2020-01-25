@@ -23,7 +23,7 @@ print('--------------------------------------------------------------------\n')
 # Band Variable
 B1st = param.columns[1]
 B2nd = param.columns[2]
-Equal = "Equal Priority"
+Equal = "Equal"
 LowtoHigh = "Low to High"
 HightoLow = "High to Low"
 
@@ -47,7 +47,7 @@ elif param_dict['SIB3_cellReselectionPriority'][1] > param_dict['SIB5_cellResele
 
 ##### Simulate 1st Band (RP Parameter) #####
 
-print(f'{B1st} to {B2nd} Reselection: ')
+print(f'{B1st} to {B2nd} Reselection: {B1st_to_B2nd} Priority')
 
 data_B1st = data.copy()
 search = pd.Series([])
@@ -316,7 +316,7 @@ print (stats)
 
 ##### Simulate 2nd Band (RP Parameter) #####
 
-print(f'\n{B2nd} to {B1st} Reselection: ')
+print(f'\n{B2nd} to {B1st} Reselection: {B2nd_to_B1st} Priority')
 
 data_B2nd = data.copy()
 search = pd.Series([])
