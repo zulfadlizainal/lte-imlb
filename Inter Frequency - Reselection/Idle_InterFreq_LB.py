@@ -44,7 +44,6 @@ elif param_dict['SIB3_cellReselectionPriority'][1] > param_dict['SIB5_cellResele
     B2nd_to_B1st = HightoLow
 
 
-
 ##### Simulate 1st Band (RP Parameter) #####
 
 print(f'{B1st} to {B2nd} Reselection: {B1st_to_B2nd} Priority')
@@ -293,7 +292,7 @@ elif B1st_to_B2nd == HightoLow:
 
     plt.show()
 
-#Calculate Statistics for 1st Band Reselection
+# Calculate Statistics for 1st Band Reselection
 
 print(f'\nResult: \n')
 
@@ -306,12 +305,12 @@ statssum = stats['count'].sum()
 
 index = 0
 for index in range(len(stats)):
-    statscalc[index] = (stats['count'][index] /  statssum) * 100
+    statscalc[index] = (stats['count'][index] / statssum) * 100
 
     stats['Stats %'] = statscalc
 
 stats = stats.rename(columns={"Result": "Category", "count": "Count"})
-print (stats)
+print(stats)
 
 
 ##### Simulate 2nd Band (RP Parameter) #####
@@ -562,7 +561,7 @@ elif B2nd_to_B1st == HightoLow:
 
     plt.show()
 
-#Calculate Statistics for 1st Band Reselection
+# Calculate Statistics for 1st Band Reselection
 
 print(f'\nResult: \n')
 
@@ -575,14 +574,14 @@ statssum = stats['count'].sum()
 
 index = 0
 for index in range(len(stats)):
-    statscalc[index] = (stats['count'][index] /  statssum) * 100
+    statscalc[index] = (stats['count'][index] / statssum) * 100
 
     stats['Stats %'] = statscalc
 
 stats = stats.rename(columns={"Result": "Category", "count": "Count"})
-print (stats)
+print(stats)
 
-###End
+# End
 
 print(' ')
 print('ありがとうございました！！')
