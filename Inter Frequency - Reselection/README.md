@@ -8,6 +8,10 @@ In LTE, reselection to other inter frequency band is handled using priority band
 <br />
 <img src="https://github.com/zulfadlizainal/4G-LTE-Idle-Mode-Load-Balance/blob/master/img/IFLB_Explain_Formula.png" alt="Formula" title="Formula" width=100% height=100% />
 <br />
+Priority: Each band can set own cell priority and the priority to other band.
+Measure: Serving band start to measure the other band.
+Decision: UE start to move (reselect) from serving band to other band.
+<br />
 <br />
 The parameter from the formula can be extracted form network parameters (3GPP ASN SIB1, SIB3, and SIB5). Below are sample for this simulation result.
 <br />
