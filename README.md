@@ -3,7 +3,7 @@
 
 ### List of projects
 
-Inter Frequency Load Balancing Simulation - Through Reselection ([Link](https://github.com/zulfadlizainal/4G-LTE-Idle-Mode-Load-Balance/tree/master/Inter%20Frequency%20-%20Reselection))
+Inter Frequency Load Balancing Simulation - Through Reselection ([Link](https://github.com/zulfadlizainal/4G-LTE-Idle-Mode-Load-Balance#1-inter-frequency-load-balancing-simulation---through-reselection-link))
 <br />
 
 ## 1. Inter Frequency Load Balancing Simulation - Through Reselection ([Link](https://github.com/zulfadlizainal/4G-LTE-Idle-Mode-Load-Balance/tree/master/Inter%20Frequency%20-%20Reselection))
